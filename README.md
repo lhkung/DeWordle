@@ -8,8 +8,9 @@ To use it:
 4. Put in $ java -jar DeWordle.jar
 
 It offers word recommendations based on entropy, the expected amount of information a guess reveals.
+Let X be a random variable that returns Wordle's iconic 🟩🟨⬛🟩🟨 pattern depending on how the guess matches the answer.
+While each pattern is non-disjoint, it reveals some information about the answer, helping us narrow down possibilities.
+Given a guess, the probablity that X returns a cetain pattern, p(X = xi), is equal to the number of words that match that pattern divided by the total number of words in the pool. The base 0.5 logarithm of the probability conveys how many times this pattern, should it be returned, reduces the number of possible choices by half. Using Shannon's entropy formula, we can compute the expceted amount of information a guess reveals.
 
-Here is the formula used to compute the entropy of each guess: 
-
-<img src="https://latex.codecogs.com/svg.image?\bg_white&space;E[X]&space;=&space;\sum_{i=1}^{n}&space;p(x&space;=&space;x_1)\log&space;p(x&space;=&space;x_i)" title="\bg_white E[X] = \sum_{i=1}^{n} p(x = x_1)\log p(x = x_i)" />
+![alt text](https://github.com/lhkung/DeWordle/blob/main/Entropy_Formula.png)
 
