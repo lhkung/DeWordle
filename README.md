@@ -15,3 +15,5 @@ Given a guess, the probablity that X returns a cetain pattern, p(X = xi), is equ
 
 ![alt text](https://github.com/lhkung/DeWordle/blob/main/Entropy_Formula.png)
 
+Candidate words with the highest entropy are recommended.
+
