@@ -20,11 +20,16 @@ Candidate words with the highest entropy are recommended.
 As the program narrows down choices, one interesting choice arises: to explore or to attack?
 For example, when we are somehow down to three choices and two more chances:
 
-🟩🟨⬛⬛
+🟩🟨⬛⬛⬛
+
 🟩⬛⬛🟩🟨
+
 🟩🟨🟩🟩🟩
+
 ⬛⬛⬛⬛⬛
+
 ⬛⬛⬛⬛⬛
+
 ⬛⬛⬛⬛⬛
 
 spell
@@ -37,11 +42,16 @@ As the expected number of scores are identical, both strategy lead to similar re
 
 However, things get interesting when we are down to only two choices: 
 
-🟩🟨⬛⬛
+🟩🟨⬛⬛⬛
+
 🟩⬛⬛🟩🟨
+
 🟩⬛🟨🟩🟨
+
 🟩🟨🟩🟩🟩
+
 ⬛⬛⬛⬛⬛
+
 ⬛⬛⬛⬛⬛
 
 By the same logic, one can guess "humph" at the fifth try in exchange for a guaranteed with at the sixth try, or guessing either of the three words, aiming to score a 4 at the risk of losing 1/3 of the time. To maximize the number of wins, it is always advisable to adopt the "safety play" strategy. But in the end, this is a very human decision that algorithms cannot make for you.
