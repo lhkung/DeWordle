@@ -2,7 +2,7 @@
 A command-line Java program that solves Wordle optimally.
 To use it:
 
-1. Download Dewordle.jar
+1. Download DeWordle.jar
 2. Open terminal
 3. cd to where the file is
 4. Put in $ java -jar DeWordle.jar
