@@ -33,7 +33,9 @@ For example, when we are somehow down to three choices:
 ⬛⬛⬛⬛⬛
 
 spell
+
 smell
+
 shell
 
 One can guess "humph" at the fourth try in exhange for a guaranteed win at the fifth try, with an expected score of 1 * 5 = 5.
