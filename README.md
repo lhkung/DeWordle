@@ -4,7 +4,7 @@ To use it:
 
 1. Download DeWordle.jar
 2. Open terminal
-3. cd to where the file is
+3. cd to where the .jar is
 4. Put in $ java -jar DeWordle.jar
 
 It offers word recommendations based on entropy, the expected amount of information a guess reveals.
