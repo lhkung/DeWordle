@@ -118,19 +118,6 @@ public class Candidate implements Comparable<Candidate> {
     }
 
     public static void main(String args[]) throws IOException {
-        /*
-
-        System.out.println("blink");
-        Candidate word = new Candidate("blink");
-        word.computeEntropy();
-        System.out.println(word.getEntropy());
-
-        System.out.println("crane");
-        Candidate crane = new Candidate("crane");
-        crane.computeEntropy();
-        System.out.println(crane.getEntropy());
-        */
-
         List<Candidate> candidates = new ArrayList<>();
         for (int i = 0; i < WordList.wordList.length; i++){
             Candidate word = new Candidate(WordList.wordList[i]);
@@ -146,14 +133,7 @@ public class Candidate implements Comparable<Candidate> {
         for (int i = 0; i < candidates.size(); i++){
             pw.printf("%s %f\n",candidates.get(i).getWord(),candidates.get(i).getEntropy());
         }
-
         pw.close();
         fos.close();
-        System.out.println(candidates.size());
-
-
-
-
-
     }
 }

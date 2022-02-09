@@ -20,7 +20,6 @@ public class DeWordle {
     /*
      * -1 = not mapped
      * 0 - 25 = mapped
-     *
      */
     private List<Set<Character>> notForThisPos;
     private List<Candidate> candidates;
@@ -29,9 +28,6 @@ public class DeWordle {
     private String currGuess;
     private String currResult;
     private Set<Character> resChar;
-
-
-
 
     public DeWordle () {
         candidates = new ArrayList<>();
@@ -47,17 +43,14 @@ public class DeWordle {
             notForThisPos.add(new HashSet<Character>());
             pos[i] = -1;
         }
-
         for (int i = 0; i < 26; i++) {
             chars[i] = 5;
         }
-
         resChar = new HashSet<>();
         resChar.add('b');
         resChar.add('g');
         resChar.add('y');
         getInitialEntropy();
-
     }
 
     public void setCurrGuess(String guess){this.currGuess = guess;}
@@ -72,7 +65,6 @@ public class DeWordle {
             notForThisPos.get(i).clear();
             pos[i] = -1;
         }
-
         for (int i = 0; i < 26; i++) {
             chars[i] = 5;
         }
@@ -105,7 +97,6 @@ public class DeWordle {
         }
         return 0;
     }
-
 
     public void processResult(){
         for (int i = 0; i <currResult.length(); i++){
@@ -171,7 +162,6 @@ public class DeWordle {
             boolean in = true;
             String word = candidates.get(i).getWord();
             Set<Character> tempChars = new HashSet<>();
-
             for (int j = 0; j < word.length(); j++){
                 char c = word.charAt(j);
                 tempChars.add(c);
@@ -196,11 +186,9 @@ public class DeWordle {
                     in = false;
                 }
             }
-
             if (in == true) {
                 candidates.set(remainPtr,candidates.get(i));
                 remainPtr++;
-
             }
         }
         candidates.subList(remainPtr,candidates.size()).clear();
@@ -278,9 +266,15 @@ public class DeWordle {
 
     public void printCandidates() {
         System.out.printf("Candidate words:\n");
+        int counter = 1;
         for (Candidate word : candidates) {
-            System.out.printf("%s\n", word.getWord());
+            System.out.printf("%s\t", word.getWord());
+            if (counter % 5 == 0){
+                System.out.printf("\n");
+            }
+            counter++;
         }
+        System.out.printf("\n");
     }
     public boolean resultValid(){
         this.currResult.toLowerCase();
@@ -329,7 +323,6 @@ public class DeWordle {
                 Candidate word = new Candidate(verbum, entropy);
                 candidates.add(word);
             }
-
         } catch (IOException e){
             System.out.printf("File not Found.\n");
         }
@@ -343,15 +336,13 @@ public class DeWordle {
         }
         System.out.printf("\n");
     }
+
     public void printTurn(){
         System.out.printf("This is turn %d.\n", turn + 1);
     }
 
-
-
     public static void main(String[] args){
         DeWordle dw = new DeWordle();
-
         while (dw.getTurn() < 6){
             if (dw.getTurn() > 0){
                 for (Candidate cd : dw.candidates){
@@ -366,8 +357,6 @@ public class DeWordle {
             dw.processResult();
             dw.filterWordsFromCandidates();
             dw.nextTurn();
-
         }
-
     }
 }
