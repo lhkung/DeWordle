@@ -38,7 +38,7 @@ smell
 
 shell
 
-One can guess "humph" at the fourth try in exhange for a guaranteed win at the fifth try, with an expected score of 1 * 5 = 5.
+One can guess "humph" at the fourth try in exhange for a guaranteed win at the fifth, with an expected score of 1 * 5 = 5.
 One can also guess either of the three words, hoping for a score of 4 but risk getting 6, with an expected score is 1/3 * 4 + 1/3 * 5+ 1/3 * 6 = 5.
 As the expected scores are equivalent, two strategies yield similar results in the long term.
 
@@ -56,4 +56,4 @@ However, things get interesting when we are down to only two choices:
 
 ⬛⬛⬛⬛⬛
 
-By the same logic, one can guess "humph" at the fifth try in exchange for a guaranteed with at the sixth try, or guessing either of the three words, aiming to score a 4 at the risk of losing 1/3 of the time. To maximize the number of wins, it is always advisable to adopt the "safety play" strategy. But in the end, this is a very human decision that algorithms cannot make for you. As in life, what is guaranteed is almost always bound to be modest.
+By the same logic, one can guess "humph" at the fifth try in exchange for a guaranteed win at the sixth, or guessing either of the three words, aiming to score a 4 at the risk of losing 1/3 of the time. To maximize the number of wins, it is always advisable to adopt the "safety play" strategy. But in the end, this is a very human decision that algorithms cannot make for you. As in life, what is guaranteed is almost always bound to be modest.
