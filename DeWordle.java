@@ -1,9 +1,11 @@
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 
 
 public class DeWordle {
     Scanner scnr;
-    private int [] chars;
+    public int [] chars;
     /* 0 = map to 0
      * 1 = map to 1
      * 2 = map to 2
@@ -21,7 +23,7 @@ public class DeWordle {
      *
      */
     private List<Set<Character>> notForThisPos;
-    private List<String> candidates;
+    private List<Candidate> candidates;
     private Set<Character> charsIn;
     private int turn;
     private String currGuess;
@@ -54,12 +56,58 @@ public class DeWordle {
         resChar.add('b');
         resChar.add('g');
         resChar.add('y');
+        getInitialEntropy();
 
     }
 
+    public void setCurrGuess(String guess){this.currGuess = guess;}
+    public void setCurrResult(String result){this.currResult = result;}
+    public int getTurn(){return this.turn;}
+    public void nextTurn(){this.turn++;}
+    public int getListLength(){return this.candidates.size();}
+    public void reset(){
+        candidates.clear();
+        charsIn.clear();
+        for (int i = 0; i < 5; i++) {
+            notForThisPos.get(i).clear();
+            pos[i] = -1;
+        }
+
+        for (int i = 0; i < 26; i++) {
+            chars[i] = 5;
+        }
+    }
+
+    public int processResultForEntropy(){
+        for (int i = 0; i <currResult.length(); i++){
+            //eliminate the character
+            if (currResult.charAt(i) == 'b') {
+                chars[currGuess.charAt(i) - 97] = 7;
+                //character in, but not mapped
+                //this position is denied this character
+            } else if (currResult.charAt(i) == 'y') {
+                notForThisPos.get(i).add(currGuess.charAt(i));
+                charsIn.add(currGuess.charAt(i));
+                if (chars[currGuess.charAt(i) - 97] == 5) {
+                    chars[currGuess.charAt(i) - 97] = 6;
+                } else if (chars[currGuess.charAt(i) - 97] == 7) {
+                    return -1;
+                }
+                //character mapped
+            } else if (currResult.charAt(i) == 'g') {
+                if (chars[currGuess.charAt(i) - 97] == 7){
+                    return -1;
+                }
+                chars[currGuess.charAt(i) - 97] = i;
+                pos[i] = currGuess.charAt(i) - 97;
+                charsIn.add(currGuess.charAt(i));
+            }
+        }
+        return 0;
+    }
+
+
     public void processResult(){
-
-
         for (int i = 0; i <currResult.length(); i++){
             //eliminate the character
             if (currResult.charAt(i) == 'b') {
@@ -111,7 +159,8 @@ public class DeWordle {
                 }
             }
             if (in == true) {
-                candidates.add(word);
+                Candidate cd = new Candidate(word);
+                candidates.add(cd);
             }
         }
     }
@@ -120,7 +169,7 @@ public class DeWordle {
         int remainPtr = 0;
         for (int i = 0; i < candidates.size(); i++) {
             boolean in = true;
-            String word = candidates.get(i);
+            String word = candidates.get(i).getWord();
             Set<Character> tempChars = new HashSet<>();
 
             for (int j = 0; j < word.length(); j++){
@@ -157,10 +206,80 @@ public class DeWordle {
         candidates.subList(remainPtr,candidates.size()).clear();
     }
 
+    public double countMatches(){
+        double matches = 0;
+        for (int i = 0; i < WordList.wordList.length; i++) {
+            boolean in = true;
+            String word = WordList.wordList[i];
+            Set<Character> tempChars = new HashSet<>();
+            for (int j = 0; j < word.length(); j++){
+                char c = word.charAt(j);
+                tempChars.add(c);
+                //if this character is already out
+                if (chars[c - 97] == 7){
+                    in = false;
+                    break;
+                    //if this position has already been denied this character
+                } else if (notForThisPos.get(j).contains(c)){
+                    in = false;
+                    break;
+                    //if this position has already been mapped to a character
+                } else if (pos[j] >= 0 && pos[j] != c - 97){
+                    in = false;
+                    break;
+                }
+            }
+            for (Character x : charsIn){
+                if (!tempChars.contains(x)){
+                    in = false;
+                }
+            }
+            if (in == true) {
+                matches++;
+            }
+        }
+        return matches;
+    }
+
+    public double countMatchesForRecompute(List<Candidate> cl){
+        double matches = 0;
+        for (int i = 0; i < cl.size(); i++) {
+            boolean in = true;
+            String word = cl.get(i).getWord();
+            Set<Character> tempChars = new HashSet<>();
+            for (int j = 0; j < word.length(); j++){
+                char c = word.charAt(j);
+                tempChars.add(c);
+                //if this character is already out
+                if (chars[c - 97] == 7){
+                    in = false;
+                    break;
+                    //if this position has already been denied this character
+                } else if (notForThisPos.get(j).contains(c)){
+                    in = false;
+                    break;
+                    //if this position has already been mapped to a character
+                } else if (pos[j] >= 0 && pos[j] != c - 97){
+                    in = false;
+                    break;
+                }
+            }
+            for (Character x : charsIn){
+                if (!tempChars.contains(x)){
+                    in = false;
+                }
+            }
+            if (in == true) {
+                matches++;
+            }
+        }
+        return matches;
+    }
+
     public void printCandidates() {
         System.out.printf("Candidate words:\n");
-        for (String word : candidates) {
-            System.out.printf("%s\n", word);
+        for (Candidate word : candidates) {
+            System.out.printf("%s\n", word.getWord());
         }
     }
     public boolean resultValid(){
@@ -178,7 +297,7 @@ public class DeWordle {
     }
     public void promptInput(){
         while (true){
-            System.out.printf("This is turn %d.\nWhat word are you guessing?\n",this.turn + 1);
+            System.out.printf("What word are you guessing?\n");
             this.currGuess = scnr.nextLine();
             if (currGuess.length() == 5){
                 currGuess.toLowerCase();
@@ -199,28 +318,53 @@ public class DeWordle {
         }
     }
 
-    public int getTurn(){
-        return this.turn;
+    public List<Candidate> getInitialEntropy(){
+        try {
+
+            FileInputStream fis = new FileInputStream("Entropy.txt");
+            Scanner read = new Scanner(fis);
+            while (read.hasNextLine()){
+                String verbum = read.next();
+                double entropy = Double.parseDouble(read.next());
+                Candidate word = new Candidate(verbum, entropy);
+                candidates.add(word);
+            }
+
+        } catch (IOException e){
+            System.out.printf("File not Found.\n");
+        }
+        return null;
     }
 
-    public void nextTurn(){
-        this.turn++;
+    public void printRecomm(){
+        System.out.printf("Recommended guesses:\t");
+        for (int i = 0; i < candidates.size() && i < 5; i++){
+            System.out.printf("%s\t",candidates.get(i).getWord());
+        }
+        System.out.printf("\n");
     }
+    public void printTurn(){
+        System.out.printf("This is turn %d.\n", turn + 1);
+    }
+
+
 
     public static void main(String[] args){
         DeWordle dw = new DeWordle();
 
         while (dw.getTurn() < 6){
             if (dw.getTurn() > 0){
+                for (Candidate cd : dw.candidates){
+                    cd.recomputeEntropy(dw.candidates);
+                }
+                Collections.sort(dw.candidates);
                 dw.printCandidates();
             }
+            dw.printTurn();
+            dw.printRecomm();
             dw.promptInput();
             dw.processResult();
-            if (dw.getTurn() == 0){
-                dw.filterWordsFromBank();
-            } else {
-                dw.filterWordsFromCandidates();
-            }
+            dw.filterWordsFromCandidates();
             dw.nextTurn();
 
         }
