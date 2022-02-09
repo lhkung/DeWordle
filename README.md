@@ -40,7 +40,7 @@ shell
 
 One can guess "humph" at the fourth try in exhange for a guaranteed win at the fifth try, with an expected score of 1 * 5 = 5.
 One can also guess either of the three words, hoping for a score of 4 but risk getting 6, with an expected score is 1/3 * 4 + 1/3 * 5+ 1/3 * 6 = 5.
-As the expected scores are identical, two strategies yield similar results in the long term.
+As the expected scores are equivalent, two strategies yield similar results in the long term.
 
 However, things get interesting when we are down to only two choices: 
 
