@@ -18,7 +18,7 @@ Given a guess, the probablity that X returns a cetain pattern, p(X = xi), is equ
 Candidate words with the highest entropy are recommended.
 
 As the program narrows down choices, one interesting choice arises: to explore or to attack?
-For example, when we are somehow down to three choices and two more chances:
+For example, when we are somehow down to three choices:
 
 🟩🟨⬛⬛⬛
 
